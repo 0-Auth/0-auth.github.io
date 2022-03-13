@@ -162,7 +162,7 @@ yat:
 
 # Banner default settings
 # These banner settings are for global banner default, but you can also
-# config it by the front matter for one specific post
+# config it by the front matter for one specific 2022-03-10-TWL-01-React-동작원리
 # banner:
 #   video: null             # Video banner source
 #   loop: true              # Video loop
