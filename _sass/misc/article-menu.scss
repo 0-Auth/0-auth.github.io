@@ -5,7 +5,7 @@
 .post-menu {
   padding-left: 20px;
   min-width: 200px;
-  max-width: 230px;
+  max-width: 250px;
 
   .post-menu-title {
     font-size: $base-font-size * 1.5;
@@ -20,11 +20,16 @@
       $indent: $base-font-size / 4;
       $active-bgcolor: #ecebec;
 
-      @for $i from 2 to 7 {
+      @for $i from 1 to 7 {
         .h-h#{$i} {
-          padding-inline-start: $indent + ($i - 2) * $base-font-size * 1.3;
-          font-size: $base-font-size * 1.1;
-          line-height: 1.4;
+          padding-inline-start: $indent + ($i - 1) * $base-font-size * 1.3;
+          @if $i < 4 {
+            font-weight: bold;
+            font-size: $base-font-size * (1.25 - $i * 0.08);
+          } @else {
+            font-size: $base-font-size * (1.1 - $i * 0.03);
+          }
+          line-height: 1.5em;
         }
       }
 
