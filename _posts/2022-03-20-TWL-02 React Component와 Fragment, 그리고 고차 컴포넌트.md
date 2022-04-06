@@ -87,24 +87,24 @@ function resolve(
     const isClass = shouldConstruct(Component);
     const publicContext = processContext(Component, context, threadID, isClass);
 
-		// ...
+  // ...
 
     let inst;
     if (isClass) {
       inst = new Component(element.props, publicContext, updater);
 
-			// ...
+   // ...
 
     } else {
 
-			//...
+   //...
 
       const componentIdentity = {};
       prepareToUseHooks(componentIdentity);
       inst = Component(element.props, publicContext, updater);
       inst = finishHooks(Component, element.props, inst, publicContext);
 
-			// ...
+   // ...
     }
 
     inst.props = element.props;
@@ -115,24 +115,24 @@ function resolve(
 
     child = inst.render();
 
-		// ...
+  // ...
   }
   return {child, context};
 }
 ```
 
-`resolve` 함수는 입력된 `child` 가 올바른 리액트 엘리먼트일 경우 `processChild` 함수를 통해 자식 요소를 처리한다. 
+`resolve` 함수는 입력된 `child` 가 올바른 리액트 엘리먼트일 경우 `processChild` 함수를 통해 자식 요소를 처리한다.
 
 ![typeof-class.png](/assets/2022-03-20-TWL-02%20React%20Component와%20Fragment,%20그리고%20고차%20컴포넌트/03-typeof-class.png)
 
 > while문 블록 내의 `if (typeof Component !== 'function')` 을 보고 순간 당황했다면 걱정하지 않아도 괜찮다. 클래스 또한 함수 타입이다.
-> 
+>
 
 `processChild` 함수 내에서는 `shouldConstruct` 함수를 활용해 컴포넌트를 호출하여 우리가 여기서 궁금한 클래스 컴포넌트인지, 함수형 컴포넌트인지에 대한 결과를 받아온다.
 
 클래스 컴포넌트일 경우, 생성자를 `new` 키워드로 호출하여 인스턴스를 생성한 뒤에 처리를 시작하고, 함수형 컴포넌트일 경우 컴포넌트 내부에서 hook을 사용할 수 있도록 처리해주어야 하고, class가 아니기 때문에 `new` 키워드 없이 인스턴스를 생성하며, 그 이후로 컴포넌트 공통적인 처리 로직이 수행됨을 알 수 있다.
 
-이처럼 클래스형/함수형 여부에 따라 자식 요소를 처리할 때 다른 방식으로 수행되는 것을 위 함수를 통해 알아볼 수 있었다. 
+이처럼 클래스형/함수형 여부에 따라 자식 요소를 처리할 때 다른 방식으로 수행되는 것을 위 함수를 통해 알아볼 수 있었다.
 
 ```tsx
 // packages/react-dom/src/server/ReactPartialRenderer.js
@@ -142,7 +142,7 @@ function shouldConstruct(Component) {
 }
 ```
 
-위에서 언급한 `shouldConstruct` 함수는 Component의 프로토타입을 살펴보게 되는데, 둘 다 함수 타입이기 때문에 프로토타입은 클래스형, 함수형 모두 존재하지만 `isReactComponent` 속성은 바로 이어서 살펴볼 수 있듯이, 클래스형 컴포넌트만 가지고 있다. 
+위에서 언급한 `shouldConstruct` 함수는 Component의 프로토타입을 살펴보게 되는데, 둘 다 함수 타입이기 때문에 프로토타입은 클래스형, 함수형 모두 존재하지만 `isReactComponent` 속성은 바로 이어서 살펴볼 수 있듯이, 클래스형 컴포넌트만 가지고 있다.
 
 ```jsx
 // packages/react/src/React.js
@@ -248,13 +248,14 @@ function renderElement(
     return;
   }
 
-	// ...
+ // ...
 }
 ```
 
-번외로, FizzServer의 구체적인 역할은 잘 모르겠으나, 이 서버에서도 element를 렌더링하기 위해 분기 처리를 하고 있는 모습을 볼 수 있다. 
+번외로, FizzServer의 구체적인 역할은 잘 모르겠으나, 이 서버에서도 element를 렌더링하기 위해 분기 처리를 하고 있는 모습을 볼 수 있다.
 
 위에서 살펴본 것과 동일하게 타입이 함수(함수형, 클래스형 모두 포함)일 때, `shouldConstruct` 가 참이면 `renderClassComponent` 를 수행하고, 그렇지 않으면 다른 렌더 함수를 호출하는 아주 유사한 방식을 가지고 있는 것을 확인할 수 있다.
+
 # Fragment
 
 Fragment는 같은 depth(or level)에 있는 여러개의 자식 엘리먼트를 한 번에 묶어 반환하기 용이하도록 하기 위한 패턴으로, React 16.2 이후부터 지원되는 기능이다.
@@ -521,10 +522,10 @@ const ComponentWithSub = withSubscription(SomeComponent, dataSelector)
   - 추가 인수 ex) `const CommentWithRelay = Relay.createContainer(Comment, config);`
   - 고차 컴포넌트를 반환하는 고차함수 - 일반적을 많이 사용되는 패턴
 
-        ```jsx
+      ```jsx
         // React Redux의 `connect`
         const ConnectedComment = connect(commentSelector, commentActions)(CommentList);
-        ```
+      ```
 
 - 디버깅을 위해 디스플레이 네임은 `고차함수명(래핑된 컴포넌트)` 와 같이 작성하라.
 
