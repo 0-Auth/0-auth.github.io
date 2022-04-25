@@ -32,7 +32,7 @@
       try {
         data = JSON.parse(data ? data : '');
       } catch(e) {
-        data = { nightShift: undefined, autoToggleAt: 0 };
+        data = { nightShift: true, autoToggleAt: 0 };
         saveThemeData(data);
       }
       return data;
